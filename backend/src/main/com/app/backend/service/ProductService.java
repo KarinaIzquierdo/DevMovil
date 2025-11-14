@@ -1,53 +1,57 @@
 package com.app.backend.service;
 
-import com.app.backend.model.category;
-import com.app.backend.repository.ProductService;
-import com.app.backend.repository.Category;
-import org.springframework.beans.factory.annotation.autowired;
-import org.springframework.stereotype.service;
-import java util.list;
+import com.app.backend.model.Product;
+import com.app.backend.model.PoductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.streotype.service;
+import java.util.list;
 
-@Service
-public class ProductService {
+@service
+public class ProductService{
 
-@Autowired
-private ProductRepository proRepo;
+    @Autowired
+    private SubcategoryRepository subcategoryRepository;
 
-@Autowired 
-private ProductRepository cateRepo;
+    @Autowired
+    private ProductRepository productRepository;
 
-public List<Product> findAll() {
-    return subCateRepo.findAll();
-}
+    @Autowired
+    private CategoryRepository categoryRepository;
 
-public ProductService findById(Long id){
-    return subCateRepo.findById(id).orElseThrow(()-> newRuntimeException("Subcategoria no encontrada"));
-}
+    public List<Product> findAll(){
+        return productRepository.findAll();
+    } 
 
-public List<Subcategoria> findByCategoriaId(Long id) {
-    return subCateRepo.findByCategoriaId(id).orElseThrow(() -> new RunTimeException("Categoria no encontrada"))
-}
+    public List<Product> findByCategoryId(Long categoryId){
+        return productRepository.findByCategoryId(categoryId);
+    } 
 
-public SubCategorycreate (SubCategory request) {
-    return subCateRepo.save(request)
-}
+    public List<Product> findBySubcategoryId(Long subcategoryId){
+        return productRepository.findBySubcategoryId(subcategoryId);
+    } 
 
-public SubCategory update(Long id, SubCategory request) {
-    return subCateRepo.save(request);
-}
+    public Product findById(Long id){
+        return productRepository.findById(id).orElseThrow(()-> new RunTimeException("Categoria no encontrada"));
+    }
 
-public SubCategory update (Long id, SubCategory request) {
-    Product product = findById (id);
-    product.setName(request.getName());
-    product.setDescription(categoryDetails());
-    product.setActive(request.getActive());
-    product.setCategory(Product)
-    return SubcategoryRepository.save(subcategory);
+    public Product create(Product product){
+        return productRepository.save(product);
+    }
 
-}
+    public Product update(Long id, Product productDetails){
+        Product product = findById(id);
+        product.setName(productDetails.getName());
+        product.setDescription(productDetails.getDescription());
+        product.setPrice(productDetails.getPrice());
+        product.setStock(productDetails.getStock());
+        product.setActive(productDetails.getActive());
+        product.setCategory(productDetails.getCategory());
+        product.setSubCategory(productDetails.getsubCategory());
+        return productRepository.save(product);
+    }
 
-public void delete(Long id){
-    SubCategory subcategory = findById (id);
-    subCateRepo.delete(subcategory);
-}
+    public void delete(Long id){
+        Product product = findById(id);
+        productRepository.delete(product);
+    }
 }
