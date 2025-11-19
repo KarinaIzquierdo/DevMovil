@@ -3,6 +3,7 @@ package com.app.backend.controller;
 import com.app.backend.model.Product;
 import com.app.backend.service.ProductService;
 import com.app.backend.dto.MessageResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,12 +15,8 @@ import java.util.List;
 @RequestMapping("/api/productos")
 @CrossOrigin(origins = "*")
 public class ProductController {
-    
-    private final ProductService productService;
-
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+    @Autowired
+    private ProductService productService;
     
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','COORDINADOR')")

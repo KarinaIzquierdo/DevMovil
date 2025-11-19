@@ -4,6 +4,7 @@ import com.app.backend.dto.UserCreateRequest;
 import com.app.backend.dto.UserUpdateRequest;
 import com.app.backend.model.User;
 import com.app.backend.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,13 +14,11 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -47,18 +46,11 @@ public class UserService {
             throw new RuntimeException("no tienes permiso para modificar el admin principal");
         }
 
-        if(request.getUsername() != null) {
-            user.setUsername(request.getUsername());
-        }
-        if(request.getEmail() != null) {
-            user.setEmail(request.getEmail());
-        }
-        if(request.getRole() != null) {
-            user.setRole(request.getRole());
-        }
-        if(request.getActive() != null) {
-            user.setActive(request.getActive());
-        }
+        user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
+        user.setRole(request.getRole());
+        user.setActive(request.getActive());
+
         if(request.getPassword() != null && !request.getPassword().isEmpty()) {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
         }

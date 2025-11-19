@@ -1,8 +1,8 @@
 package com.app.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
 
 
@@ -38,47 +38,47 @@ public class User {
         ADMIN, COORDINADOR
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
+    public void setUsername(String username){
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUsername(){
+        return username;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password){
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPassword(){
+        return password;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email){
         this.email = email;
     }
 
-    public Role getRole() {
-        return role;
+    public String getEmail(){
+        return email;
     }
 
-    public void setRole(Role role) {
+    public void setRole(Role role){
         this.role = role;
     }
 
-    public Boolean getActive() {
-        return active;
+    public Role getRole(){
+        return role;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(Boolean active){
         this.active = active;
+    }
+
+    public Boolean getActive(){
+        return active;
+    }
+    
+    public Long getId(){
+        return id;
     }
 }

@@ -3,6 +3,7 @@ package com.app.backend.controller;
 import com.app.backend.model.Category;
 import com.app.backend.service.CategoryService;
 import com.app.backend.dto.MessageResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,11 +16,8 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class CategoryController {
     
-    private final CategoryService categoryService;
-
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    @Autowired
+    private CategoryService categoryService;
     
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','COORDINADOR')")

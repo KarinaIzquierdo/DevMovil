@@ -2,17 +2,23 @@ package com.app.backend.service;
 
 import com.app.backend.model.Product;
 import com.app.backend.repository.ProductRepository;
+import com.app.backend.repository.SubcategoryRepository;
+import com.app.backend.repository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class ProductService {
 
-    private final ProductRepository productRepository;
+    @Autowired
+    private SubcategoryRepository subcategoryRepository;
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public List<Product> findAll() {
         return productRepository.findAll();
@@ -31,6 +37,24 @@ public class ProductService {
     }
 
     public Product create(Product product) {
+        // Validar y cargar la categoría
+        if (product.getCategory() != null && product.getCategory().getId() != null) {
+            var category = categoryRepository.findById(product.getCategory().getId())
+                    .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+            product.setCategory(category);
+        } else {
+            throw new RuntimeException("La categoría es requerida");
+        }
+
+        // Validar y cargar la subcategoría
+        if (product.getSubcategory() != null && product.getSubcategory().getId() != null) {
+            var subcategory = subcategoryRepository.findById(product.getSubcategory().getId())
+                    .orElseThrow(() -> new RuntimeException("Subcategoría no encontrada"));
+            product.setSubcategory(subcategory);
+        } else {
+            throw new RuntimeException("La subcategoría es requerida");
+        }
+
         return productRepository.save(product);
     }
 
@@ -41,8 +65,21 @@ public class ProductService {
         product.setPrice(productDetails.getPrice());
         product.setStock(productDetails.getStock());
         product.setActive(productDetails.getActive());
-        product.setCategory(productDetails.getCategory());
-        product.setSubcategory(productDetails.getSubcategory());
+        
+        // Validar y cargar la categoría si viene
+        if (productDetails.getCategory() != null && productDetails.getCategory().getId() != null) {
+            var category = categoryRepository.findById(productDetails.getCategory().getId())
+                    .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+            product.setCategory(category);
+        }
+
+        // Validar y cargar la subcategoría si viene
+        if (productDetails.getSubcategory() != null && productDetails.getSubcategory().getId() != null) {
+            var subcategory = subcategoryRepository.findById(productDetails.getSubcategory().getId())
+                    .orElseThrow(() -> new RuntimeException("Subcategoría no encontrada"));
+            product.setSubcategory(subcategory);
+        }
+        
         return productRepository.save(product);
     }
 

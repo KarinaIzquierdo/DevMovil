@@ -3,6 +3,7 @@ package com.app.backend.controller;
 import com.app.backend.model.Subcategory;
 import com.app.backend.service.SubcategoryService;
 import com.app.backend.dto.MessageResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,11 +15,8 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class SubCategoryController {
 
-    private final SubcategoryService subcategoryService;
-
-    public SubCategoryController(SubcategoryService subcategoryService) {
-        this.subcategoryService = subcategoryService;
-    }
+    @Autowired
+    private SubcategoryService subcategoryService;
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','COORDINADOR')")
