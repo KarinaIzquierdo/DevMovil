@@ -2,7 +2,6 @@ package com.app.backend.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Data
 @Entity
@@ -51,22 +50,6 @@ public class Product {
         this.description = description;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public Double getPrice() {
         return price;
     }
@@ -81,6 +64,22 @@ public class Product {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Subcategory getSubcategory() {

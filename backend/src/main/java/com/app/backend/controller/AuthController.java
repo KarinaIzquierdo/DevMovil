@@ -5,7 +5,6 @@ import com.app.backend.dto.LoginResponse;
 import com.app.backend.model.User;
 import com.app.backend.repository.UserRepository;
 import com.app.backend.Security.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,14 +17,17 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*") 
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider tokenProvider;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private JwtTokenProvider tokenProvider;
-
-    @Autowired
-    private UserRepository userRepository;
+    public AuthController(AuthenticationManager authenticationManager, 
+                         JwtTokenProvider tokenProvider,
+                         UserRepository userRepository) {
+        this.authenticationManager = authenticationManager;
+        this.tokenProvider = tokenProvider;
+        this.userRepository = userRepository;
+    }
 
     @PostMapping(value ="/login", consumes = "application/json", produces="application/json")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {

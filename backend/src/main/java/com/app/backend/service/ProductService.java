@@ -2,23 +2,17 @@ package com.app.backend.service;
 
 import com.app.backend.model.Product;
 import com.app.backend.repository.ProductRepository;
-import com.app.backend.repository.SubcategoryRepository;
-import com.app.backend.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class ProductService {
 
-    @Autowired
-    private SubcategoryRepository subcategoryRepository;
+    private final ProductRepository productRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     public List<Product> findAll() {
         return productRepository.findAll();

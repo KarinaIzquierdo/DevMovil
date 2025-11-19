@@ -58,12 +58,4 @@ public class Category {
     public void setActive(Boolean active) {
         this.active = active;
     }
-
-    public List<Subcategory> getSubcategories() {
-        return subcategories;
-    }
-
-    public void setSubcategories(List<Subcategory> subcategories) {
-        this.subcategories = subcategories;
-    }
 }

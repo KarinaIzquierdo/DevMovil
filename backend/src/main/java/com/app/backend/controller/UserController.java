@@ -6,7 +6,6 @@ import com.app.backend.service.UserService;
 import com.app.backend.dto.MessageResponse;
 import com.app.backend.dto.UserCreateRequest;
 import com.app.backend.dto.UserUpdateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,8 +17,11 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','COORDINADOR')")
     public ResponseEntity<List<User>> getAllUsers() {

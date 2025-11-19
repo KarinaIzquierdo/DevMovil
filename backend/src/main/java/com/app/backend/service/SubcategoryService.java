@@ -2,19 +2,19 @@ package com.app.backend.service;
 
 import com.app.backend.model.Subcategory;
 import com.app.backend.repository.SubcategoryRepository;
-import com.app.backend.repository.CategoryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class SubcategoryService {
 
-    @Autowired
-    private SubcategoryRepository subcategoryRepository;
+    private final SubcategoryRepository subcategoryRepository;
+    private final CategoryService categoryService;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    public SubcategoryService(SubcategoryRepository subcategoryRepository, CategoryService categoryService) {
+        this.subcategoryRepository = subcategoryRepository;
+        this.categoryService = categoryService;
+    }
 
     public List<Subcategory> findAll() {
         return subcategoryRepository.findAll();
@@ -29,6 +29,9 @@ public class SubcategoryService {
     }
 
     public Subcategory create(Subcategory subcategory) {
+        if (subcategory.getCategory() != null && subcategory.getCategory().getId() != null) {
+            subcategory.setCategory(categoryService.findById(subcategory.getCategory().getId()));
+        }
         return subcategoryRepository.save(subcategory);
     }
 
