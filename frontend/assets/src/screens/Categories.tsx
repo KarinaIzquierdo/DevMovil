@@ -76,6 +76,79 @@ export default function CategoriesScreen() {
             style: 'destructive', 
             onPress: async () => {
                 try {
-                    
+                    await categoryService.delete(item.id);
+                    Alert.alert('Éxito', 'Categoría eliminada exitosamente.');
+                    loadCategories();
+                } catch (error) {
+                    Alert.alert('Error', 'Hubo un problema al eliminar la categoría.');
+                }
+            }    
     }
-}
+]);
+};
+
+    const handleToggleActive = (item: any) => {
+        const action = item.active ? 'desactivar' : 'activar';
+        Alert.alert('confimar', `¿${action.charAt(0).toUpperCase() + action.slice(1)} ${item.name}?`, [
+            { text: 'Cancelar', style: 'cancel' }, 
+            { 
+            text: action.charAt(0).toUpperCase() + action.slice(1),
+            onPress: async () => {
+                try {
+                    await categoryService.update
+                    (item.id, {
+                    name: item.name, 
+                    description: item.description,
+                    active: !item.active});
+
+                    Alert.alert('Éxito', `Categoría ${item.active ? 'desactivada' : 'activada'}`);
+                    loadCategories();
+                } catch (error) {
+                    Alert.alert('Error', `No se pudo ${action}`);
+                }
+            }
+        }
+        ]);
+
+    };
+
+    const handleEdit = (item: any) => {
+        setFormData({ name: item.name, description: item.description || '' } );
+        setEditing(item);
+        setModalVisible(true);
+    };
+
+    const resetForm = () => {
+        setFormData({ name: '', description: '' });
+        setEditing(null);
+    };
+
+    const renderCategory = ({ item } : {item: any}) => (
+        <View style={categoriesStyles.categoryCard}>
+            <View style = {categoriesStyles.categoryInfo}>
+            <Text style={categoriesStyles.categoryName}>
+                {item.name} {!item.active && <Text style ={{color: '#999'}}> (Inactiva)}</Text>}
+            </Text>
+            {item.description && (<Text style={categoriesStyles.categoryDescription}>{item.description}</Text>)}
+            </View>
+      
+
+            <View style={categoriesStyles.actionContainer}>
+                <TouchableOpacity
+                    style={[categoriesStyles.actionButton, categoriesStyles.editButtonText]}>Editar   
+                    </TouchableOpacity>
+                    </View>
+                    <view style = {categoriesStyles.}
+
+
+
+
+
+
+
+
+
+
+
+
+
